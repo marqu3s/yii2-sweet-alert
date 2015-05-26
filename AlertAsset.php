@@ -1,6 +1,6 @@
 <?php
 
-namespace common\widgets\alert;
+namespace marqu3s\sweetalert;
 
 use yii\web\AssetBundle;
 
