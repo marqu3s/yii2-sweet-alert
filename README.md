@@ -1,6 +1,7 @@
 Alert Widget for Yii 2
 =========
 - Alert widget based on SweetAlert extension http://tristanedwards.me/sweetalert
+- Forked from [yii2mod/yii2-sweet-alert](https://github.com/yii2mod/yii2-sweet-alert) and adapted to suit my needs.
 
 Installation 
 ------------
@@ -10,13 +11,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist yii2mod/yii2-sweet-alert "*"
+php composer.phar require --prefer-dist marqu3s/yii2-sweet-alert "*"
 ```
 
 or add
 
 ```json
-"yii2mod/yii2-sweet-alert": "*"
+"marqu3s/yii2-sweet-alert": "*"
 ```
 
 to the require section of your composer.json.
