@@ -1,6 +1,6 @@
 <?php
 
-namespace common\widgets\alert;
+namespace marqu3s\sweetalert;
 
 use Yii;
 use yii\base\Widget;
