@@ -1,6 +1,6 @@
 <?php
 
-namespace yii2mod\alert;
+namespace common\widgets\alert;
 
 use Yii;
 use yii\base\Widget;
@@ -28,11 +28,18 @@ class Alert extends Widget
      * @var int Auto close timer of the modal. Set in ms (milliseconds). default - 1,5 second
      */
     public $timer = 1500;
+
     /**
      * Plugin options
      * @var array
      */
     public $options = [];
+
+    /** @var string Text for the cancel button. */
+    public $cancelButtonText = 'Cancelar';
+
+    /** @var string Color in hex format for the confirm button. */
+    public $confirmButtonColor = '#2196F3';
 
 
     /**
@@ -73,7 +80,7 @@ class Alert extends Widget
     {
         $view = $this->getView();
         AlertAsset::register($view);
-        $js = 'sweetAlert(' . $this->getOptions() . ');';
+        $js = 'swal(' . $this->getOptions() . ');';
         $view->registerJs($js, $view::POS_END);
     }
 
@@ -85,6 +92,7 @@ class Alert extends Widget
     {
         $this->options['allowOutsideClick'] = $this->allowOutsideClick;
         $this->options['timer'] = $this->timer;
+        $this->options['cancelButtonText'] = $this->cancelButtonText;
         return Json::encode($this->options);
     }
 }
