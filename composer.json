@@ -23,7 +23,7 @@
         "psr-4": {
             "marqu3s\\sweetalert\\": ""
         }
-    }
+    },
     "extra": {
         "asset-installer-paths": {
             "npm-asset-library": "vendor/npm",
