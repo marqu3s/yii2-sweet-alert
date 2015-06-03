@@ -80,8 +80,10 @@ class Alert extends Widget
     {
         $view = $this->getView();
         AlertAsset::register($view);
-        $js = 'swal(' . $this->getOptions() . ');';
-        $view->registerJs($js, $view::POS_END);
+        if (isset($this->options['title'])) {
+            $js = 'swal(' . $this->getOptions() . ');';
+            $view->registerJs($js, $view::POS_END);
+        }
     }
 
     /**
