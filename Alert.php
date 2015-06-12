@@ -8,7 +8,6 @@ use yii\helpers\Json;
 
 /**
  * Alert widget renders a message from session flash or custom messages.
- * @package yii2mod\alert
  */
 class Alert extends Widget
 {
