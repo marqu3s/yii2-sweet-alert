@@ -12,26 +12,20 @@ use yii\helpers\Json;
 class Alert extends Widget
 {
     /**
-     * All the flash messages stored for the session are displayed and removed from the session
-     * Default true.
+     * All the flash messages stored for the session are displayed and removed
+     * from the session. Default true.
+     *
      * @var bool
      */
     public $useSessionFlash = true;
 
-    /**
-     * @var bool If set to true, the user can dismiss the modal by clicking outside it.
-     */
+    /** @var bool If set to true, the user can dismiss the modal by clicking outside it. */
     public $allowOutsideClick = true;
 
-    /**
-     * @var int Auto close timer of the modal. Set in ms (milliseconds). default - 1,5 second
-     */
-    public $timer = 1500;
+    /** @var int Auto close timer of the modal. Set in ms (milliseconds). default - 2,0 seconds */
+    public $timer = 2000;
 
-    /**
-     * Plugin options
-     * @var array
-     */
+    /** @var array Plugin options */
     public $options = [];
 
     /** @var string Text for the cancel button. */
@@ -40,6 +34,8 @@ class Alert extends Widget
     /** @var string Color in hex format for the confirm button. */
     public $confirmButtonColor = '#2196F3';
 
+    /** @var bool If the confirmation button should be displayed. */
+    public $showConfirmButton = false;
 
     /**
      * Initializes the widget
@@ -94,6 +90,9 @@ class Alert extends Widget
         $this->options['allowOutsideClick'] = $this->allowOutsideClick;
         $this->options['timer'] = $this->timer;
         $this->options['cancelButtonText'] = $this->cancelButtonText;
+        $this->options['confirmButtonColor'] = $this->confirmButtonColor;
+        $this->options['showConfirmButton'] = $this->showConfirmButton;
+        
         return Json::encode($this->options);
     }
 }
