@@ -53,6 +53,10 @@ class Alert extends Widget
                 foreach ($data as $message) {
                     $this->options['type'] = $type;
                     $this->options['title'] = $message;
+                    if ($type == 'info') {
+                        $this->timer = null;
+                        $this->showConfirmButton = true;
+                    }
                 }
                 $session->removeFlash($type);
             }
