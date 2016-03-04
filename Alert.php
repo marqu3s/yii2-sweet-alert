@@ -5,6 +5,7 @@ namespace marqu3s\sweetalert;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Json;
+use yii\web\View;
 
 /**
  * Alert widget renders a message from session flash or custom messages.
@@ -12,7 +13,7 @@ use yii\helpers\Json;
 class Alert extends Widget
 {
     /**
-     * All the flash messages stored for the session are displayed and removed
+     * All flash messages stored in the session are displayed and removed
      * from the session. Default true.
      *
      * @var bool
@@ -28,7 +29,7 @@ class Alert extends Widget
     /** @var array Plugin options */
     public $options = [];
 
-    /** @var string Text for the cancel button. */
+    /** @var string Text for the cancel button on confirmation alerts. */
     public $cancelButtonText = 'Cancelar';
 
     /** @var string Color in hex format for the confirm button. */
@@ -37,31 +38,6 @@ class Alert extends Widget
     /** @var bool If the confirmation button should be displayed. */
     public $showConfirmButton = false;
 
-    /**
-     * Initializes the widget
-     */
-    public function init()
-    {
-        parent::init();
-
-        if ($this->useSessionFlash) {
-            $session = \Yii::$app->getSession();
-            $flashes = $session->getAllFlashes();
-
-            foreach ($flashes as $type => $data) {
-                $data = (array)$data;
-                foreach ($data as $message) {
-                    $this->options['type'] = $type;
-                    $this->options['title'] = $message;
-                    if ($type == 'info') {
-                        $this->timer = null;
-                        $this->showConfirmButton = true;
-                    }
-                }
-                $session->removeFlash($type);
-            }
-        }
-    }
 
     /**
      * Render alert
@@ -70,19 +46,57 @@ class Alert extends Widget
     public function run()
     {
         $this->registerAssets();
+
+        # Normally session messages are informative. There is no need for a cancel button.
+        if ($this->useSessionFlash) {
+            $session = Yii::$app->getSession();
+            $flashes = $session->getAllFlashes();
+
+            foreach ($flashes as $type => $data) {
+                $data = (array)$data;
+                foreach ($data as $message) {
+                    $this->options['type'] = $type;
+                    $this->options['text'] = $message;
+                    if ($type == 'info' || $type == 'warning') {
+                        $this->options['title'] = 'Atenção!';
+                        $this->timer = null;
+                        $this->showConfirmButton = true;
+                    } elseif ($type == 'error') {
+                        $this->options['title'] = 'Oooops!';
+                        $this->timer = null;
+                        $this->showConfirmButton = true;
+                    } else {
+                        $this->options['title'] = 'Sucesso';
+                        $this->timer = 2000;
+                        $this->showConfirmButton = false;
+                    }
+                }
+                $session->removeFlash($type);
+                $this->registerJs();
+            }
+        }
     }
 
     /**
-     * Register client assets
+     * Register client assets.
+     * If there is a title set, register the javascript code required to show an alert on page load.
      */
     protected function registerAssets()
     {
-        $view = $this->getView();
-        AlertAsset::register($view);
+        AlertAsset::register($this->getView());
+
         if (isset($this->options['title'])) {
-            $js = 'swal(' . $this->getOptions() . ');';
-            $view->registerJs($js, $view::POS_END);
+            $this->registerJs();
         }
+    }
+
+    /**
+     * Register the javascript code required to show an alert on page page load.
+     */
+    protected function registerJs()
+    {
+        $js = 'swal(' . $this->getOptions() . ');';
+        $this->getView()->registerJs($js, View::POS_END);
     }
 
     /**
