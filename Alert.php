@@ -67,7 +67,6 @@ class Alert extends Widget
                         $this->showConfirmButton = true;
                     } else {
                         $this->options['title'] = 'Sucesso';
-                        $this->timer = 2000;
                         $this->showConfirmButton = false;
                     }
                 }
