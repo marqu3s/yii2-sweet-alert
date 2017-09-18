@@ -67,7 +67,7 @@ class Alert extends Widget
                         $this->showConfirmButton = true;
                     } else {
                         $this->options['title'] = 'Sucesso';
-                        $this->showConfirmButton = false;
+                        $this->showConfirmButton = true;
                     }
                 }
                 $session->removeFlash($type);
